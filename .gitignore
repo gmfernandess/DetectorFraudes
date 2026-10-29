@@ -6,3 +6,4 @@ pytest-cache-files-*/
 .env
 Final.ipynb
 /data/raw/PS_20174392719_1491204439457_log.csv
+results/experimentos_professor/

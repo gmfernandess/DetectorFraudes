@@ -26,6 +26,7 @@ class FraudPredictor:
             threshold_low=artifact.threshold_low,
             threshold_high=artifact.threshold_high,
         )
+        self._explainer = None
 
     @classmethod
     def from_path(cls, path: str | None = None) -> "FraudPredictor":
@@ -61,7 +62,9 @@ class FraudPredictor:
 
         estimator = self.artifact.estimator
         try:
-            explainer = shap.Explainer(estimator)
+            if self._explainer is None:
+                self._explainer = shap.Explainer(estimator)
+            explainer = self._explainer
             shap_values = explainer(transformed)
             contributions = np.asarray(shap_values.values[0]).ravel()
             paired = list(
